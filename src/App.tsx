@@ -68,7 +68,7 @@ const TarsBackground = () => (
 
       {/* Right Circle: Smaller & Faster */}
       <div 
-        className="absolute top-1/2 right-[-5%] h-[600px] w-[600px] animate-orbit-fast"
+        className="absolute top-1/2 right-[-15%] h-[600px] w-[600px] animate-orbit-fast"
         style={{
           background: 'radial-gradient(circle, rgba(192, 132, 252, 0.45) 0%, rgba(192, 132, 252, 0.15) 40%, transparent 70%)',
           filter: 'blur(35px)',
