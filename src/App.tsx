@@ -80,7 +80,7 @@ const TarsBackground = () => (
 );
 
 const Hero = () => (
-  <section className="relative pt-20 pb-32 px-4 text-center overflow-hidden bg-slate-50/50">
+  <section className="relative pt-20 pb-16 px-4 text-center overflow-hidden bg-slate-50/50">
     <TarsBackground />
     
     <motion.div 
@@ -219,7 +219,7 @@ const DashboardPreview = () => {
 
   return (
     <section className="max-w-7xl mx-auto px-4 pb-60 relative">
-      <div className="relative h-[800px] pt-40">
+      <div className="relative h-[800px] pt-10">
         <AnimatePresence initial={false}>
           {slides.map((slide, index) => {
             const isFront = index === 0;
@@ -242,7 +242,7 @@ const DashboardPreview = () => {
               >
                 {/* Tab Header (Visible for background cards) */}
                 {!isFront && (
-                  <div className="bg-white/95 backdrop-blur-md rounded-t-[20px] border-x border-t border-white/30 px-8 h-[60px] flex items-center space-x-4 shadow-[0_-10px_20px_rgba(0,0,0,0.05)] mx-6">
+                  <div className="bg-white/95 backdrop-blur-md rounded-t-[40px] border-x border-t border-white/30 px-8 h-[60px] flex items-center space-x-4 shadow-[0_-10px_20px_rgba(0,0,0,0.05)]">
                     <div className="text-brand/80">
                       {slide.bannerIcon}
                     </div>
