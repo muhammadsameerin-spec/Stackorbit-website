@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronDown, Globe, ArrowRight, MessageCircle, Shield, Zap, Cpu, BarChart3, Cloud, Layers, Users, CheckCircle2, Facebook, Twitter, Linkedin, Github, Youtube, Building, Server, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronDown, Globe, ArrowRight, MessageCircle, Shield, Zap, Cpu, BarChart3, Cloud, Layers, Users, CheckCircle2, Facebook, Twitter, Linkedin, Github, Youtube, Building, Server, ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 const TopNav = () => (
@@ -229,20 +229,20 @@ const DashboardPreview = () => {
                 layout
                 initial={false}
                 animate={{
-                  y: (slides.length - 1 - index) * 60, 
+                  y: (slides.length - 1 - index) * 45, 
                   scale: 1 - index * 0.02,
                   zIndex: 30 - index,
                   opacity: 1,
                 }}
-                transition={{ type: "spring", stiffness: 260, damping: 26 }}
+                transition={{ type: "spring", stiffness: 200, damping: 25 }}
                 onClick={() => !isFront && bringToFront(index)}
-                className={`absolute inset-x-0 mx-auto max-w-6xl cursor-pointer ${
-                  !isFront ? "hover:-translate-y-1" : "cursor-default"
+                className={`absolute inset-x-0 mx-auto max-w-5xl cursor-pointer ${
+                  !isFront ? "hover:-translate-y-2" : "cursor-default"
                 }`}
               >
                 {/* Tab Header (Visible for background cards) */}
                 {!isFront && (
-                  <div className="bg-white/95 backdrop-blur-md rounded-t-[40px] border-x border-t border-white/30 px-8 h-[60px] flex items-center space-x-4 shadow-[0_-10px_20px_rgba(0,0,0,0.05)]">
+                  <div className="bg-white/95 backdrop-blur-md rounded-t-[32px] border-x border-t border-white/20 px-10 h-[50px] flex items-center space-x-4 shadow-[0_-10px_30px_rgba(0,0,0,0.03)] w-full">
                     <div className="text-brand/80">
                       {slide.bannerIcon}
                     </div>
@@ -254,10 +254,10 @@ const DashboardPreview = () => {
 
                 {/* Dashboard Card with Liquid Glass Design */}
                 <div className={`
-                  relative overflow-hidden rounded-[40px] border border-white/10 shadow-2xl
-                  ${isFront ? 'bg-white shadow-[0_30px_60px_rgba(0,0,0,0.12)]' : 'bg-slate-800/40 backdrop-blur-xl'}
-                  p-8 md:p-14 min-h-[650px]
-                  ${!isFront ? 'rounded-t-none border-t-0' : ''}
+                  relative overflow-hidden rounded-[32px] border border-white/10 shadow-2xl
+                  ${isFront ? 'bg-white shadow-[0_40px_80px_rgba(0,0,0,0.1)]' : 'bg-slate-800/40 backdrop-blur-xl'}
+                  p-8 md:p-12 w-full
+                  ${isFront ? 'min-h-[680px]' : 'min-h-[600px] rounded-t-none border-t-0'}
                 `}>
                   {/* Liquid Background Elements (Only for background cards or as subtle accents) */}
                   <div className="absolute top-0 left-0 w-full h-full -z-10 overflow-hidden">
@@ -382,60 +382,161 @@ const DashboardPreview = () => {
 };
 
 const TrustedBy = () => {
-  const logos = [
-    { name: "kalaam", icon: <Globe size={20} /> },
-    { name: "coloasia", icon: <Cloud size={24} /> },
-    { name: "AFR@NET", icon: <Zap size={20} /> },
-    { name: "Data Hub", icon: <Layers size={20} /> },
-    { name: "Appranix", icon: <Shield size={20} /> },
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
+  
+  const testimonials = [
+    {
+      id: 1,
+      quote: "StackOrbit has completely revolutionized how we manage our sovereign cloud infrastructure. The unified dashboard provides unparalleled visibility and control that we simply couldn't find with hyperscalers.",
+      author: "Alex Rivera",
+      role: "CTO, CloudNexus Systems",
+      avatar: "https://i.pravatar.cc/150?u=alex",
+      rating: 5
+    },
+    {
+      id: 2,
+      quote: "The speed of deployment and the robustness of the marketplace have allowed us to scale our B2B offerings in record time. It's the most comprehensive cloud platform we've ever used.",
+      author: "Sarah Chen",
+      role: "Director of Infrastructure, GlobalCloud",
+      avatar: "https://i.pravatar.cc/150?u=sarah",
+      rating: 5
+    },
+    {
+      id: 3,
+      quote: "Sovereign AI is the future, and StackOrbit is leading the way. Their GPU orchestration and model management tools are world-class.",
+      author: "Marcus Thorne",
+      role: "Head of AI, DataSphere",
+      avatar: "https://i.pravatar.cc/150?u=marcus",
+      rating: 5
+    }
   ];
 
+  const logos = [
+    { name: "AFR@NET", icon: <Zap size={20} /> },
+    { name: "DATA HUB", icon: <Layers size={20} /> },
+    { name: "APPRANIX", icon: <Shield size={20} /> },
+    { name: "KALAAM", icon: <Globe size={20} /> },
+    { name: "COLOASIA", icon: <Cloud size={24} /> },
+  ];
+
+  const nextTestimonial = () => setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
+  const prevTestimonial = () => setActiveTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+
+  useEffect(() => {
+    const timer = setInterval(nextTestimonial, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
-    <section className="max-w-7xl mx-auto px-4 pb-24">
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="bg-white rounded p-12 md:p-16 shadow-sm border border-slate-100 text-center"
-      >
+    <section className="max-w-7xl mx-auto px-4 pb-16">
+      <div className="text-center mb-10">
+        <div className="text-[10px] font-black text-brand uppercase tracking-[0.3em] mb-3">Success Stories</div>
         <h2 className="text-2xl md:text-4xl font-bold text-slate-900 mb-4 tracking-tight">
           Trusted by Cloud Providers Worldwide
         </h2>
-        <p className="text-slate-500 text-sm md:text-base mb-16 max-w-2xl mx-auto">
+        <p className="text-slate-500 text-xs md:text-base max-w-2xl mx-auto">
           Join the service providers who have transformed their cloud business.
         </p>
-        
-        <div className="relative w-full overflow-hidden">
-          {/* Gradient Masks for smooth fade */}
-          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white to-transparent z-10" />
-          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white to-transparent z-10" />
-          
-          <motion.div 
-            className="flex items-center space-x-20 whitespace-nowrap"
-            animate={{ x: [0, -1000] }}
-            transition={{ 
-              duration: 25, 
-              repeat: Infinity, 
-              ease: "linear" 
-            }}
+      </div>
+
+      {/* Testimonial Carousel */}
+      <div className="relative max-w-4xl mx-auto mb-12">
+        <div className="absolute top-1/2 -left-6 md:-left-16 -translate-y-1/2 z-10">
+          <button 
+            onClick={prevTestimonial}
+            className="w-10 h-10 bg-white rounded-full shadow-lg border border-slate-100 flex items-center justify-center text-slate-400 hover:text-brand hover:border-brand transition-all"
           >
-            {/* Triple the logos for seamless loop */}
-            {[...logos, ...logos, ...logos].map((logo, idx) => (
-              <div 
-                key={idx} 
-                className="flex items-center space-x-4 opacity-40 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300 cursor-pointer group inline-flex"
-              >
-                <div className="text-slate-400 group-hover:text-brand transition-colors">
-                  {logo.icon}
-                </div>
-                <span className="text-xl md:text-2xl font-bold text-slate-400 group-hover:text-slate-900 transition-colors tracking-tighter uppercase">
-                  {logo.name}
-                </span>
-              </div>
-            ))}
-          </motion.div>
+            <ChevronLeft size={20} />
+          </button>
         </div>
-      </motion.div>
+        
+        <div className="absolute top-1/2 -right-6 md:-right-16 -translate-y-1/2 z-10">
+          <button 
+            onClick={nextTestimonial}
+            className="w-10 h-10 bg-white rounded-full shadow-lg border border-slate-100 flex items-center justify-center text-slate-400 hover:text-brand hover:border-brand transition-all"
+          >
+            <ChevronRight size={20} />
+          </button>
+        </div>
+
+        <div className="bg-white rounded-[32px] p-6 md:p-10 shadow-[0_15px_40px_rgba(0,0,0,0.04)] border border-slate-50 relative overflow-hidden">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTestimonial}
+              initial={{ opacity: 0, x: 15 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -15 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-6"
+            >
+              <div className="flex space-x-1">
+                {[...Array(testimonials[activeTestimonial].rating)].map((_, i) => (
+                  <Star key={i} size={16} className="fill-brand text-brand" />
+                ))}
+              </div>
+              
+              <p className="text-lg md:text-xl text-slate-700 italic leading-relaxed font-medium">
+                "{testimonials[activeTestimonial].quote}"
+              </p>
+
+              <div className="flex items-center space-x-4">
+                <img 
+                  src={testimonials[activeTestimonial].avatar} 
+                  alt={testimonials[activeTestimonial].author}
+                  className="w-12 h-12 rounded-full object-cover border-2 border-slate-100"
+                />
+                <div>
+                  <div className="font-bold text-slate-900 text-base">{testimonials[activeTestimonial].author}</div>
+                  <div className="text-[11px] text-slate-500 font-medium uppercase tracking-wider">{testimonials[activeTestimonial].role}</div>
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Pagination Dots */}
+        <div className="flex justify-center mt-6 space-x-2">
+          {testimonials.map((_, i) => (
+            <button 
+              key={i}
+              onClick={() => setActiveTestimonial(i)}
+              className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                activeTestimonial === i ? 'bg-brand w-4' : 'bg-slate-200'
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Auto-scrolling Logos */}
+      <div className="bg-white rounded-[32px] p-6 md:p-10 shadow-[0_8px_30px_rgba(0,0,0,0.02)] border border-slate-50 overflow-hidden relative">
+        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white to-transparent z-10" />
+        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white to-transparent z-10" />
+        
+        <motion.div 
+          className="flex items-center space-x-20 whitespace-nowrap"
+          animate={{ x: [0, -1200] }}
+          transition={{ 
+            duration: 35, 
+            repeat: Infinity, 
+            ease: "linear" 
+          }}
+        >
+          {[...logos, ...logos, ...logos].map((logo, idx) => (
+            <div 
+              key={idx} 
+              className="flex items-center space-x-4 opacity-40 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-500 cursor-pointer group"
+            >
+              <div className="p-1.5 bg-slate-100 rounded-lg text-slate-400 group-hover:text-brand group-hover:bg-brand/10 transition-colors">
+                {logo.icon}
+              </div>
+              <span className="text-base md:text-lg font-bold text-slate-400 group-hover:text-slate-900 transition-colors tracking-tight uppercase">
+                {logo.name}
+              </span>
+            </div>
+          ))}
+        </motion.div>
+      </div>
     </section>
   );
 };
