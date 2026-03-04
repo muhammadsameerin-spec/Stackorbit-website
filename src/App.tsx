@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ChevronDown, Globe, ArrowRight, MessageCircle, Shield, Zap, Cpu, BarChart3, Cloud, Layers, Users, CheckCircle2, Facebook, Twitter, Linkedin, Github, Youtube, Building, Server, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -110,49 +110,242 @@ const Hero = () => (
   </section>
 );
 
-const DashboardPreview = () => (
-  <section className="max-w-6xl mx-auto px-4 pb-40">
-    <motion.div 
-      initial={{ opacity: 0, scale: 0.95 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8 }}
-      className="relative group"
-    >
-      {/* Banner Overlay */}
-      <div className="absolute -top-6 left-1/2 -translate-x-1/2 z-20 w-full max-w-2xl">
-        <div className="bg-white rounded py-3 px-6 shadow-2xl border border-slate-100 flex items-center justify-between group-hover:border-brand/30 transition-colors">
-          <div className="flex items-center space-x-3">
-            <div className="p-1.5 bg-brand/10 rounded text-brand">
-              <Globe size={18} />
-            </div>
-            <span className="text-sm md:text-base font-semibold text-slate-700">
-              Launch a full-stack cloud platform—on your infrastructure, on your terms.
-            </span>
-          </div>
-          <div className="p-2 bg-slate-900 rounded text-white">
-            <ArrowRight size={18} />
-          </div>
-        </div>
-      </div>
+const DashboardPreview = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [displayText, setDisplayText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [typingSpeed, setTypingSpeed] = useState(100);
 
-      {/* Main Card */}
-      <div className="bg-slate-900 rounded-xl p-4 md:p-8 shadow-2xl overflow-hidden border border-slate-800">
-        <div className="bg-white/5 rounded-lg p-2 md:p-4 backdrop-blur-sm border border-white/10">
-          <img 
-            src="https://picsum.photos/seed/dashboard/1600/900" 
-            alt="StackOrbit Dashboard" 
-            className="rounded-md w-full shadow-inner opacity-90 group-hover:opacity-100 transition-opacity"
-            referrerPolicy="no-referrer"
-          />
+  const slides = [
+    {
+      id: 0,
+      bannerText: "Deliver anything-as-a-service from a single cloud platform.",
+      bannerIcon: <Layers size={18} />,
+      title: "IaaS Marketplace Platform",
+      regions: [
+        { name: "Global North", zones: "5 zones", color: "bg-emerald-500" },
+        { name: "Global South", zones: "3 zones", color: "bg-emerald-500" },
+        { name: "Edge Network", zones: "8 zones", color: "bg-emerald-500" }
+      ],
+      stats: [
+        { label: "Compute Hosts", value: "320" },
+        { label: "Storage", value: "7.5 PB" },
+        { label: "Marketplace Apps", value: "250+" },
+        { label: "VMs Active", value: "6,890" }
+      ],
+      activity: [
+        { title: "App marketplace live", sub: "One-click deployment for 250+ apps", time: "1m ago", color: "bg-emerald-500" },
+        { title: "Revenue tracking enabled", sub: "Real-time billing and analytics", time: "4m ago", color: "bg-indigo-500" },
+        { title: "Partner API activated", sub: "Third-party app integration ready", time: "7m ago", color: "bg-indigo-500" }
+      ]
+    },
+    {
+      id: 1,
+      bannerText: "From rack to revenue, StackOrbit runs your cloud end-to-end.",
+      bannerIcon: <Server size={18} />,
+      title: "Multi-Region B2B Cloud",
+      regions: [
+        { name: "US-East", zones: "4 zones", color: "bg-emerald-500" },
+        { name: "US-West", zones: "3 zones", color: "bg-emerald-500" },
+        { name: "Canada", zones: "2 zones", color: "bg-emerald-500" }
+      ],
+      stats: [
+        { label: "Compute Hosts", value: "248" },
+        { label: "Storage", value: "5.8 PB" },
+        { label: "Uptime", value: "99.9%" },
+        { label: "VMs Active", value: "4,120" }
+      ],
+      activity: [
+        { title: "Auto-scaling enabled", sub: "Dynamic resource allocation active", time: "2m ago", color: "bg-emerald-500" },
+        { title: "B2B portal launched", sub: "Self-service provisioning for customers", time: "5m ago", color: "bg-indigo-500" },
+        { title: "API gateway deployed", sub: "Unified access across all regions", time: "8m ago", color: "bg-indigo-500" }
+      ]
+    }
+  ];
+
+  // Auto-typing effect
+  useEffect(() => {
+    const currentFullText = slides[currentSlide].bannerText;
+    
+    const handleTyping = () => {
+      if (!isDeleting) {
+        setDisplayText(currentFullText.substring(0, displayText.length + 1));
+        setTypingSpeed(100);
+        if (displayText === currentFullText) {
+          // Pause at end
+          setTimeout(() => setIsDeleting(true), 2000);
+        }
+      } else {
+        setDisplayText(currentFullText.substring(0, displayText.length - 1));
+        setTypingSpeed(50);
+        if (displayText === "") {
+          setIsDeleting(false);
+          // Move to next slide after deleting
+          setCurrentSlide((prev) => (prev + 1) % slides.length);
+        }
+      }
+    };
+
+    const timer = setTimeout(handleTyping, typingSpeed);
+    return () => clearTimeout(timer);
+  }, [displayText, isDeleting, currentSlide, slides]);
+
+  // Automatic slide switching (fallback/backup if typing is disabled or as a separate sync)
+  // In this case, the typing effect drives the slide change.
+
+  return (
+    <section className="max-w-6xl mx-auto px-4 pb-40">
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="relative"
+      >
+        {/* Banner Overlay (Search Bar Style) */}
+        <div className="absolute -top-10 left-1/2 -translate-x-1/2 z-30 w-full max-w-3xl px-4">
+          <div className="bg-white rounded-full py-4 px-8 shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-slate-100 flex items-center justify-between">
+            <div className="flex items-center space-x-4 flex-1">
+              <div className="text-indigo-600">
+                {slides[currentSlide].bannerIcon}
+              </div>
+              <div className="text-base md:text-lg font-medium text-slate-700 flex items-center">
+                {displayText}
+                <motion.span 
+                  animate={{ opacity: [1, 0] }}
+                  transition={{ duration: 0.5, repeat: Infinity }}
+                  className="inline-block w-0.5 h-5 bg-indigo-600 ml-1"
+                />
+              </div>
+            </div>
+            <div className="w-10 h-10 bg-slate-900 rounded-full flex items-center justify-center text-white cursor-pointer hover:bg-slate-800 transition-colors">
+              <ArrowRight size={20} />
+            </div>
+          </div>
         </div>
-      </div>
-      
-      {/* Glow Effect */}
-      <div className="absolute -inset-4 bg-brand/10 blur-3xl -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-    </motion.div>
-  </section>
-);
+
+        {/* Main Dashboard Card */}
+        <div className="bg-[#0f172a] rounded-[32px] p-4 md:p-12 shadow-2xl border border-white/5 relative overflow-hidden mt-12">
+          {/* Browser Header */}
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center space-x-6">
+              <div className="flex space-x-2">
+                <div className="w-3 h-3 rounded-full bg-red-500/80" />
+                <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                <div className="w-3 h-3 rounded-full bg-green-500/80" />
+              </div>
+              <div className="text-sm font-bold text-white/90 tracking-wide">
+                {slides[currentSlide].title}
+              </div>
+            </div>
+            <button className="px-5 py-2 bg-indigo-600 text-white text-xs font-bold rounded-full hover:bg-indigo-500 transition-colors">
+              Deploy Now
+            </button>
+          </div>
+
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Sidebar */}
+            <div className="w-full lg:w-64 space-y-8">
+              <div>
+                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Infrastructure</div>
+                <div className="space-y-1">
+                  <div className="px-4 py-2.5 bg-indigo-600/20 text-indigo-400 rounded-lg text-xs font-bold border border-indigo-500/20">
+                    Regions & Zones
+                  </div>
+                  {['Compute Hosts', 'Storage Pools', 'Network Config'].map(item => (
+                    <div key={item} className="px-4 py-2.5 text-slate-400 hover:text-white transition-colors text-xs font-medium cursor-pointer">
+                      {item}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Management</div>
+                <div className="space-y-1">
+                  {[
+                    { name: 'StackBill', icon: <Layers size={14} /> },
+                    { name: 'StackWatch', icon: <Zap size={14} /> },
+                    { name: 'TARS AI', icon: <Cpu size={14} /> }
+                  ].map(item => (
+                    <div key={item.name} className="px-4 py-2.5 text-slate-400 hover:text-white transition-colors text-xs font-medium flex items-center space-x-3 cursor-pointer">
+                      {item.icon}
+                      <span>{item.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Main Content Area */}
+            <div className="flex-1 space-y-6">
+              {/* Regions Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {slides[currentSlide].regions.map((region, i) => (
+                  <div key={i} className="bg-white/5 border border-white/5 rounded-2xl p-5 hover:bg-white/10 transition-colors group cursor-pointer">
+                    <div className="flex items-center space-x-3 mb-2">
+                      <div className={`w-2 h-2 rounded-full ${region.color}`} />
+                      <div className="text-sm font-bold text-white">{region.name}</div>
+                    </div>
+                    <div className="text-xs text-slate-500">{region.zones}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Stats Grid */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {slides[currentSlide].stats.map((stat, i) => (
+                  <div key={i} className="bg-white/5 border border-white/5 rounded-2xl p-5">
+                    <div className="text-2xl font-bold text-white mb-1">{stat.value}</div>
+                    <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Recent Activity */}
+              <div className="bg-white/5 border border-white/5 rounded-2xl p-6">
+                <div className="text-sm font-bold text-white mb-6">Recent Activity</div>
+                <div className="space-y-6">
+                  {slides[currentSlide].activity.map((item, i) => (
+                    <div key={i} className="flex items-start justify-between group cursor-pointer">
+                      <div className="flex space-x-4">
+                        <div className={`w-2 h-2 rounded-full mt-1.5 ${item.color}`} />
+                        <div>
+                          <div className="text-xs font-bold text-white group-hover:text-indigo-400 transition-colors">{item.title}</div>
+                          <div className="text-[10px] text-slate-500 mt-0.5">{item.sub}</div>
+                        </div>
+                      </div>
+                      <div className="text-[10px] text-slate-600 font-medium">{item.time}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Pagination Dots */}
+        <div className="flex justify-center mt-8 space-x-3">
+          {slides.map((_, i) => (
+            <button 
+              key={i}
+              onClick={() => {
+                setCurrentSlide(i);
+                setDisplayText("");
+                setIsDeleting(false);
+              }}
+              className={`h-1.5 rounded-full transition-all duration-500 ${
+                currentSlide === i ? 'w-8 bg-indigo-600' : 'w-2 bg-slate-300'
+              }`}
+            />
+          ))}
+        </div>
+        
+        {/* Glow Effect */}
+        <div className="absolute -inset-10 bg-indigo-600/10 blur-[100px] -z-10" />
+      </motion.div>
+    </section>
+  );
+};
 
 const TrustedBy = () => {
   const logos = [
