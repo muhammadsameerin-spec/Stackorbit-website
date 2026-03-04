@@ -111,12 +111,7 @@ const Hero = () => (
 );
 
 const DashboardPreview = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [displayText, setDisplayText] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [typingSpeed, setTypingSpeed] = useState(100);
-
-  const slides = [
+  const [slides, setSlides] = useState([
     {
       id: 0,
       bannerText: "Deliver anything-as-a-service from a single cloud platform.",
@@ -160,189 +155,228 @@ const DashboardPreview = () => {
         { title: "B2B portal launched", sub: "Self-service provisioning for customers", time: "5m ago", color: "bg-indigo-500" },
         { title: "API gateway deployed", sub: "Unified access across all regions", time: "8m ago", color: "bg-indigo-500" }
       ]
+    },
+    {
+      id: 2,
+      bannerText: "Sovereign AI infrastructure for high-performance workloads.",
+      bannerIcon: <Cpu size={18} />,
+      title: "Sovereign AI Cloud",
+      regions: [
+        { name: "EU-Central", zones: "6 zones", color: "bg-brand" },
+        { name: "Asia-East", zones: "4 zones", color: "bg-brand" },
+        { name: "Middle East", zones: "2 zones", color: "bg-brand" }
+      ],
+      stats: [
+        { label: "GPU Clusters", value: "12" },
+        { label: "AI Models", value: "45" },
+        { label: "Training Jobs", value: "1.2k" },
+        { label: "Inference/sec", value: "850k" }
+      ],
+      activity: [
+        { title: "LLM Training Started", sub: "Distributed training on 128 GPUs", time: "30s ago", color: "bg-brand" },
+        { title: "Model Registry Updated", sub: "New Llama-3 fine-tuned weights", time: "12m ago", color: "bg-emerald-500" },
+        { title: "Inference Node Scaled", sub: "Auto-scaling triggered by demand", time: "15m ago", color: "bg-emerald-500" }
+      ]
     }
-  ];
+  ]);
 
-  // Auto-typing effect
+  const [displayText, setDisplayText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [typingSpeed, setTypingSpeed] = useState(100);
+
+  const bringToFront = (index: number) => {
+    const newSlides = [...slides];
+    const [selected] = newSlides.splice(index, 1);
+    newSlides.unshift(selected);
+    setSlides(newSlides);
+    setDisplayText("");
+    setIsDeleting(false);
+  };
+
+  // Auto-typing effect for the front slide
   useEffect(() => {
-    const currentFullText = slides[currentSlide].bannerText;
+    const currentFullText = slides[0].bannerText;
     
     const handleTyping = () => {
       if (!isDeleting) {
         setDisplayText(currentFullText.substring(0, displayText.length + 1));
         setTypingSpeed(100);
         if (displayText === currentFullText) {
-          // Pause at end
-          setTimeout(() => setIsDeleting(true), 2000);
+          setTimeout(() => setIsDeleting(true), 3000);
         }
       } else {
         setDisplayText(currentFullText.substring(0, displayText.length - 1));
         setTypingSpeed(50);
         if (displayText === "") {
           setIsDeleting(false);
-          // Move to next slide after deleting
-          setCurrentSlide((prev) => (prev + 1) % slides.length);
         }
       }
     };
 
     const timer = setTimeout(handleTyping, typingSpeed);
     return () => clearTimeout(timer);
-  }, [displayText, isDeleting, currentSlide, slides]);
-
-  // Automatic slide switching (fallback/backup if typing is disabled or as a separate sync)
-  // In this case, the typing effect drives the slide change.
+  }, [displayText, isDeleting, slides]);
 
   return (
-    <section className="max-w-6xl mx-auto px-4 pb-40">
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.95 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-        className="relative"
-      >
-        {/* Banner Overlay (Search Bar Style) */}
-        <div className="absolute -top-10 left-1/2 -translate-x-1/2 z-30 w-full max-w-3xl px-4">
-          <div className="bg-white rounded-full py-4 px-8 shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-slate-100 flex items-center justify-between">
-            <div className="flex items-center space-x-4 flex-1">
-              <div className="text-indigo-600">
-                {slides[currentSlide].bannerIcon}
-              </div>
-              <div className="text-base md:text-lg font-medium text-slate-700 flex items-center">
-                {displayText}
-                <motion.span 
-                  animate={{ opacity: [1, 0] }}
-                  transition={{ duration: 0.5, repeat: Infinity }}
-                  className="inline-block w-0.5 h-5 bg-indigo-600 ml-1"
-                />
-              </div>
-            </div>
-            <div className="w-10 h-10 bg-slate-900 rounded-full flex items-center justify-center text-white cursor-pointer hover:bg-slate-800 transition-colors">
-              <ArrowRight size={20} />
-            </div>
-          </div>
-        </div>
-
-        {/* Main Dashboard Card */}
-        <div className="bg-[#0f172a] rounded-[32px] p-4 md:p-12 shadow-2xl border border-white/5 relative overflow-hidden mt-12">
-          {/* Browser Header */}
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center space-x-6">
-              <div className="flex space-x-2">
-                <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                <div className="w-3 h-3 rounded-full bg-green-500/80" />
-              </div>
-              <div className="text-sm font-bold text-white/90 tracking-wide">
-                {slides[currentSlide].title}
-              </div>
-            </div>
-            <button className="px-5 py-2 bg-indigo-600 text-white text-xs font-bold rounded-full hover:bg-indigo-500 transition-colors">
-              Deploy Now
-            </button>
-          </div>
-
-          <div className="flex flex-col lg:flex-row gap-8">
-            {/* Sidebar */}
-            <div className="w-full lg:w-64 space-y-8">
-              <div>
-                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Infrastructure</div>
-                <div className="space-y-1">
-                  <div className="px-4 py-2.5 bg-indigo-600/20 text-indigo-400 rounded-lg text-xs font-bold border border-indigo-500/20">
-                    Regions & Zones
-                  </div>
-                  {['Compute Hosts', 'Storage Pools', 'Network Config'].map(item => (
-                    <div key={item} className="px-4 py-2.5 text-slate-400 hover:text-white transition-colors text-xs font-medium cursor-pointer">
-                      {item}
+    <section className="max-w-7xl mx-auto px-4 pb-60 relative">
+      <div className="relative h-[800px] pt-40">
+        <AnimatePresence initial={false}>
+          {slides.map((slide, index) => {
+            const isFront = index === 0;
+            return (
+              <motion.div
+                key={slide.id}
+                layout
+                initial={false}
+                animate={{
+                  y: (slides.length - 1 - index) * 60, 
+                  scale: 1 - index * 0.02,
+                  zIndex: 30 - index,
+                  opacity: 1,
+                }}
+                transition={{ type: "spring", stiffness: 260, damping: 26 }}
+                onClick={() => !isFront && bringToFront(index)}
+                className={`absolute inset-x-0 mx-auto max-w-6xl cursor-pointer ${
+                  !isFront ? "hover:-translate-y-1" : "cursor-default"
+                }`}
+              >
+                {/* Tab Header (Visible for background cards) */}
+                {!isFront && (
+                  <div className="bg-white/95 backdrop-blur-md rounded-t-[20px] border-x border-t border-white/30 px-8 h-[60px] flex items-center space-x-4 shadow-[0_-10px_20px_rgba(0,0,0,0.05)] mx-6">
+                    <div className="text-brand/80">
+                      {slide.bannerIcon}
                     </div>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Management</div>
-                <div className="space-y-1">
-                  {[
-                    { name: 'StackBill', icon: <Layers size={14} /> },
-                    { name: 'StackWatch', icon: <Zap size={14} /> },
-                    { name: 'TARS AI', icon: <Cpu size={14} /> }
-                  ].map(item => (
-                    <div key={item.name} className="px-4 py-2.5 text-slate-400 hover:text-white transition-colors text-xs font-medium flex items-center space-x-3 cursor-pointer">
-                      {item.icon}
-                      <span>{item.name}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Main Content Area */}
-            <div className="flex-1 space-y-6">
-              {/* Regions Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {slides[currentSlide].regions.map((region, i) => (
-                  <div key={i} className="bg-white/5 border border-white/5 rounded-2xl p-5 hover:bg-white/10 transition-colors group cursor-pointer">
-                    <div className="flex items-center space-x-3 mb-2">
-                      <div className={`w-2 h-2 rounded-full ${region.color}`} />
-                      <div className="text-sm font-bold text-white">{region.name}</div>
-                    </div>
-                    <div className="text-xs text-slate-500">{region.zones}</div>
+                    <span className="text-sm font-bold text-slate-600 truncate">
+                      {slide.title}
+                    </span>
                   </div>
-                ))}
-              </div>
+                )}
 
-              {/* Stats Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {slides[currentSlide].stats.map((stat, i) => (
-                  <div key={i} className="bg-white/5 border border-white/5 rounded-2xl p-5">
-                    <div className="text-2xl font-bold text-white mb-1">{stat.value}</div>
-                    <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">{stat.label}</div>
+                {/* Dashboard Card with Liquid Glass Design */}
+                <div className={`
+                  relative overflow-hidden rounded-[40px] border border-white/10 shadow-2xl
+                  ${isFront ? 'bg-white shadow-[0_30px_60px_rgba(0,0,0,0.12)]' : 'bg-slate-800/40 backdrop-blur-xl'}
+                  p-8 md:p-14 min-h-[650px]
+                  ${!isFront ? 'rounded-t-none border-t-0' : ''}
+                `}>
+                  {/* Liquid Background Elements (Only for background cards or as subtle accents) */}
+                  <div className="absolute top-0 left-0 w-full h-full -z-10 overflow-hidden">
+                    <motion.div 
+                      animate={{ 
+                        x: [0, 50, 0], 
+                        y: [0, 30, 0],
+                        scale: [1, 1.1, 1]
+                      }}
+                      transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+                      className={`absolute -top-1/2 -left-1/4 w-full h-full ${isFront ? 'bg-brand/5' : 'bg-brand/10'} blur-[120px] rounded-full`} 
+                    />
                   </div>
-                ))}
-              </div>
 
-              {/* Recent Activity */}
-              <div className="bg-white/5 border border-white/5 rounded-2xl p-6">
-                <div className="text-sm font-bold text-white mb-6">Recent Activity</div>
-                <div className="space-y-6">
-                  {slides[currentSlide].activity.map((item, i) => (
-                    <div key={i} className="flex items-start justify-between group cursor-pointer">
-                      <div className="flex space-x-4">
-                        <div className={`w-2 h-2 rounded-full mt-1.5 ${item.color}`} />
-                        <div>
-                          <div className="text-xs font-bold text-white group-hover:text-indigo-400 transition-colors">{item.title}</div>
-                          <div className="text-[10px] text-slate-500 mt-0.5">{item.sub}</div>
+                  {/* Browser Header (Simplified for Front Card) */}
+                  <div className="flex items-center space-x-3 mb-12">
+                    <div className="p-2 bg-brand/10 rounded-lg text-brand">
+                      {slide.bannerIcon}
+                    </div>
+                    <div className="text-sm font-bold text-slate-800 tracking-tight">
+                      {slide.title}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col lg:flex-row gap-12 items-center">
+                    {/* Editorial Content (Left Side) */}
+                    <div className="flex-1 space-y-8">
+                      <h3 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight tracking-tight">
+                        {slide.title === "IaaS Marketplace Platform" ? "Comprehensive Cloud Infrastructure and Marketplace" : 
+                         slide.title === "Multi-Region B2B Cloud" ? "Global B2B Cloud Operations and Scaling" :
+                         "Sovereign AI Infrastructure and Intelligence"}
+                      </h3>
+                      
+                      <div className="text-lg text-slate-600 leading-relaxed max-w-xl">
+                        <div className="min-h-[100px]">
+                          {isFront ? (
+                            <>
+                              {displayText}
+                              <motion.span 
+                                animate={{ opacity: [1, 0] }}
+                                transition={{ duration: 0.5, repeat: Infinity }}
+                                className="inline-block w-0.5 h-5 bg-brand ml-1 align-middle"
+                              />
+                            </>
+                          ) : (
+                            slide.bannerText
+                          )}
                         </div>
                       </div>
-                      <div className="text-[10px] text-slate-600 font-medium">{item.time}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        {/* Pagination Dots */}
-        <div className="flex justify-center mt-8 space-x-3">
-          {slides.map((_, i) => (
-            <button 
-              key={i}
-              onClick={() => {
-                setCurrentSlide(i);
-                setDisplayText("");
-                setIsDeleting(false);
-              }}
-              className={`h-1.5 rounded-full transition-all duration-500 ${
-                currentSlide === i ? 'w-8 bg-indigo-600' : 'w-2 bg-slate-300'
-              }`}
-            />
-          ))}
-        </div>
-        
-        {/* Glow Effect */}
-        <div className="absolute -inset-10 bg-indigo-600/10 blur-[100px] -z-10" />
-      </motion.div>
+                      <div className="flex items-center space-x-6">
+                        <button className="px-8 py-4 bg-slate-900 text-white font-bold rounded-full hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/20 flex items-center space-x-3">
+                          <span>Get Started</span>
+                          <ArrowRight size={18} />
+                        </button>
+                        <button className="text-slate-600 font-bold hover:text-brand transition-colors">
+                          View Documentation
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Dashboard Preview (Right Side) */}
+                    <div className="flex-1 w-full">
+                      <div className="bg-slate-900 rounded-3xl p-6 shadow-2xl border border-slate-800 relative overflow-hidden">
+                        {/* Browser Dots */}
+                        <div className="flex space-x-1.5 mb-6">
+                          <div className="w-2.5 h-2.5 rounded-full bg-red-500/40" />
+                          <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/40" />
+                          <div className="w-2.5 h-2.5 rounded-full bg-green-500/40" />
+                        </div>
+
+                        <div className="space-y-6">
+                          {/* Stats Grid */}
+                          <div className="grid grid-cols-2 gap-4">
+                            {slide.stats.slice(0, 2).map((stat, i) => (
+                              <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-4">
+                                <div className="text-xl font-bold text-white mb-1">{stat.value}</div>
+                                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">{stat.label}</div>
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* Activity List */}
+                          <div className="space-y-4">
+                            {slide.activity.slice(0, 2).map((item, i) => (
+                              <div key={i} className="flex items-center justify-between bg-white/5 border border-white/10 rounded-xl p-3">
+                                <div className="flex items-center space-x-3">
+                                  <div className={`w-1.5 h-1.5 rounded-full ${item.color}`} />
+                                  <div className="text-[10px] font-bold text-white">{item.title}</div>
+                                </div>
+                                <div className="text-[9px] text-slate-500">{item.time}</div>
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* Mock Chart Area */}
+                          <div className="h-32 bg-white/5 border border-white/10 rounded-2xl relative overflow-hidden">
+                            <div className="absolute inset-0 flex items-end px-4 pb-4 space-x-1">
+                              {[40, 70, 45, 90, 65, 80, 55, 95, 75, 85].map((h, i) => (
+                                <motion.div 
+                                  key={i}
+                                  initial={{ height: 0 }}
+                                  animate={{ height: `${h}%` }}
+                                  transition={{ delay: i * 0.1, duration: 1 }}
+                                  className="flex-1 bg-brand/40 rounded-t-sm"
+                                />
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
+      </div>
     </section>
   );
 };
