@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from 'react';
-import { ChevronDown, Globe, ArrowRight, MessageCircle, Shield, Zap, Cpu, BarChart3, Cloud, Layers, Users, CheckCircle2, Facebook, Twitter, Linkedin, Github, Building, Server, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronDown, Globe, ArrowRight, MessageCircle, Shield, Zap, Cpu, BarChart3, Cloud, Layers, Users, CheckCircle2, Facebook, Twitter, Linkedin, Github, Youtube, Building, Server, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 const TopNav = () => (
@@ -1064,45 +1064,57 @@ const Footer = () => (
             </span>
           </div>
           <p className="text-slate-500 text-sm max-w-xs mb-8 leading-relaxed">
-            The world's most advanced cloud orchestration platform for service providers and enterprises seeking digital sovereignty.
+            Empowering businesses to build sovereign clouds with open-source freedom and AI intelligence.
           </p>
-          <div className="flex items-center space-x-4">
-            {[Twitter, Linkedin, Github, Facebook].map((Icon, i) => (
+          <div className="flex items-center space-x-4 mb-12">
+            {[Github, Twitter, Linkedin, Youtube].map((Icon, i) => (
               <a key={i} href="#" className="w-10 h-10 rounded bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-brand hover:border-brand/30 transition-all">
                 <Icon size={18} />
               </a>
             ))}
+          </div>
+
+          <div className="pt-8 border-t border-slate-200 w-full">
+            <h5 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Certifications</h5>
+            <div className="flex items-center space-x-6 opacity-60 grayscale hover:grayscale-0 transition-all">
+              <div className="flex flex-col items-center">
+                <span className="text-[10px] font-black text-slate-900">NASSCOM</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <div className="w-8 h-8 rounded-full border-2 border-slate-900 flex items-center justify-center text-[6px] font-bold text-slate-900 text-center leading-tight">
+                  ISO<br/>27001
+                </div>
+              </div>
+              <div className="flex flex-col items-center">
+                <div className="w-8 h-8 rounded-full border-2 border-slate-900 flex items-center justify-center text-[6px] font-bold text-slate-900 text-center leading-tight">
+                  ISO<br/>9001
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         <div>
           <h4 className="font-bold text-slate-900 mb-6">Platform</h4>
           <ul className="space-y-4 text-sm text-slate-500">
-            <li><a href="#" className="hover:text-brand transition-colors">Compute</a></li>
-            <li><a href="#" className="hover:text-brand transition-colors">Storage</a></li>
-            <li><a href="#" className="hover:text-brand transition-colors">Networking</a></li>
-            <li><a href="#" className="hover:text-brand transition-colors">Kubernetes</a></li>
-            <li><a href="#" className="hover:text-brand transition-colors">Marketplace</a></li>
+            <li><a href="#" className="hover:text-brand transition-colors">StackBill</a></li>
+            <li><a href="#" className="hover:text-brand transition-colors">StackWatch</a></li>
+            <li><a href="#" className="hover:text-brand transition-colors">StackObject</a></li>
+            <li><a href="#" className="hover:text-brand transition-colors">StackVault</a></li>
+            <li><a href="#" className="hover:text-brand transition-colors">TARS AI</a></li>
+            <li><a href="#" className="hover:text-brand transition-colors">Integrations</a></li>
+            <li><a href="#" className="hover:text-brand transition-colors">Platform Features</a></li>
           </ul>
         </div>
 
         <div>
-          <h4 className="font-bold text-slate-900 mb-6">Solutions</h4>
+          <h4 className="font-bold text-slate-900 mb-6">Services</h4>
           <ul className="space-y-4 text-sm text-slate-500">
-            <li><a href="#" className="hover:text-brand transition-colors">Telco Cloud</a></li>
-            <li><a href="#" className="hover:text-brand transition-colors">MSP Platform</a></li>
-            <li><a href="#" className="hover:text-brand transition-colors">Government</a></li>
-            <li><a href="#" className="hover:text-brand transition-colors">Private Cloud</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 className="font-bold text-slate-900 mb-6">Company</h4>
-          <ul className="space-y-4 text-sm text-slate-500">
-            <li><a href="#" className="hover:text-brand transition-colors">About Us</a></li>
-            <li><a href="#" className="hover:text-brand transition-colors">Careers</a></li>
-            <li><a href="#" className="hover:text-brand transition-colors">Partners</a></li>
-            <li><a href="#" className="hover:text-brand transition-colors">Newsroom</a></li>
+            <li><a href="#" className="hover:text-brand transition-colors">CloudStack Consulting</a></li>
+            <li><a href="#" className="hover:text-brand transition-colors">IaaS Design & Build</a></li>
+            <li><a href="#" className="hover:text-brand transition-colors">VMware Migration</a></li>
+            <li><a href="#" className="hover:text-brand transition-colors">24/7 Managed Support</a></li>
+            <li><a href="#" className="hover:text-brand transition-colors">StackOps Services</a></li>
           </ul>
         </div>
 
@@ -1110,9 +1122,22 @@ const Footer = () => (
           <h4 className="font-bold text-slate-900 mb-6">Resources</h4>
           <ul className="space-y-4 text-sm text-slate-500">
             <li><a href="#" className="hover:text-brand transition-colors">Documentation</a></li>
+            <li><a href="#" className="hover:text-brand transition-colors">Blog</a></li>
+            <li><a href="#" className="hover:text-brand transition-colors">Case Studies</a></li>
+            <li><a href="#" className="hover:text-brand transition-colors">Videos</a></li>
             <li><a href="#" className="hover:text-brand transition-colors">API Reference</a></li>
-            <li><a href="#" className="hover:text-brand transition-colors">Community</a></li>
-            <li><a href="#" className="hover:text-brand transition-colors">Support</a></li>
+            <li><a href="#" className="hover:text-brand transition-colors">Pricing</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 className="font-bold text-slate-900 mb-6">Company</h4>
+          <ul className="space-y-4 text-sm text-slate-500">
+            <li><a href="#" className="hover:text-brand transition-colors">About Us</a></li>
+            <li><a href="#" className="hover:text-brand transition-colors">Contact</a></li>
+            <li><a href="#" className="hover:text-brand transition-colors">Careers</a></li>
+            <li><a href="#" className="hover:text-brand transition-colors">Stack Academy</a></li>
+            <li><a href="#" className="hover:text-brand transition-colors">Legal</a></li>
           </ul>
         </div>
       </div>
