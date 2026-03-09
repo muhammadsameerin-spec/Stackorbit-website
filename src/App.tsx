@@ -22,27 +22,25 @@ const TopNav = () => (
 );
 
 const Navbar = () => (
-  <nav className="w-full py-4 px-4 md:px-12 flex justify-between items-center sticky top-0 bg-white/80 backdrop-blur-md z-50">
-    <div className="flex items-center space-x-8">
-      <div className="flex items-center space-x-2">
-        <div className="flex flex-col">
-          <span className="text-2xl font-bold tracking-tight text-slate-900">
-            Stack<span className="text-brand">orbit</span>
-          </span>
-          <span className="text-[8px] uppercase tracking-widest text-slate-400 font-bold -mt-1">
-            Engineered Cloud. Delivered.
-          </span>
+  <nav className="w-full py-4 px-4 md:px-12 flex justify-between items-center sticky top-0 bg-white/80 backdrop-blur-md z-50 border-b border-slate-50">
+    <div className="flex-shrink-0">
+      <div className="flex flex-col">
+        <span className="text-2xl font-bold tracking-tight text-slate-900">
+          Stack<span className="text-brand">orbit</span>
+        </span>
+        <span className="text-[8px] uppercase tracking-widest text-slate-400 font-bold -mt-1">
+          Engineered Cloud. Delivered.
+        </span>
+      </div>
+    </div>
+    
+    <div className="hidden lg:flex items-center space-x-8 text-sm font-medium text-slate-600">
+      {['Platform', 'Services', 'Solutions', 'Resources', 'Company'].map((item) => (
+        <div key={item} className="flex items-center space-x-1 cursor-pointer hover:text-brand transition-colors group">
+          <span>{item}</span>
+          <ChevronDown size={14} className="group-hover:translate-y-0.5 transition-transform" />
         </div>
-      </div>
-      
-      <div className="hidden lg:flex items-center space-x-6 text-sm font-medium text-slate-600">
-        {['Platform', 'Services', 'Solutions', 'Resources', 'Company'].map((item) => (
-          <div key={item} className="flex items-center space-x-1 cursor-pointer hover:text-brand transition-colors">
-            <span>{item}</span>
-            <ChevronDown size={14} />
-          </div>
-        ))}
-      </div>
+      ))}
     </div>
 
     <div className="flex items-center space-x-4">
@@ -81,13 +79,13 @@ const TarsBackground = () => (
 );
 
 const Hero = () => (
-  <section className="relative min-h-[90vh] md:min-h-screen flex items-center justify-center overflow-hidden">
+  <section className="relative min-h-[80vh] flex flex-col items-center justify-start overflow-hidden pt-[120px] pb-[200px]">
     <WavyBackground 
       containerClassName="absolute inset-0 h-full w-full"
-      className="max-w-4xl mx-auto px-4 text-center relative z-10"
+      className="max-w-7xl mx-auto px-4 text-center relative z-10"
       backgroundFill="white"
-      waveOpacity={0.4}
-      blur={15}
+      waveOpacity={0.3}
+      blur={20}
       speed="slow"
       orientation="vertical"
       position="right"
@@ -96,24 +94,23 @@ const Hero = () => (
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="pb-32 md:pb-48"
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="flex flex-col items-center relative"
       >
-        <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 leading-[1.1] tracking-tight">
-          A Unified Platform for <br />
-          <span className="text-brand">Public Cloud</span>
+        <h1 className="text-[36px] md:text-[52px] font-extrabold text-slate-900 leading-[1.1] tracking-tight whitespace-nowrap">
+          A Unified Platform for <span className="text-brand">Public Cloud</span>
         </h1>
         
-        <p className="mt-8 text-lg md:text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed">
-          The complete sovereign cloud platform that enables service providers to launch, operate, and monetize cloud services—without hyperscaler dependency.
+        <p className="mt-6 text-[18px] md:text-[20px] text-slate-500 max-w-3xl mx-auto leading-relaxed font-medium opacity-80">
+          The complete sovereign cloud platform that enables service providers to launch, operate, and monetize cloud services without hyperscaler dependency.
         </p>
         
-        <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <button className="w-full sm:w-auto px-10 py-4 text-lg font-bold text-white bg-brand rounded-full hover:bg-brand/90 shadow-xl shadow-brand/20 transition-all transform hover:-translate-y-1">
-            Get Started Free
-          </button>
-          <button className="w-full sm:w-auto px-10 py-4 text-lg font-bold text-slate-700 bg-white border border-slate-200 rounded-full hover:bg-slate-50 transition-all transform hover:-translate-y-1">
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-6">
+          <button className="w-full sm:w-auto px-12 py-4 text-lg font-bold text-slate-700 bg-white border border-slate-200 rounded-full hover:bg-slate-50 shadow-xl shadow-slate-200/40 transition-all transform hover:-translate-y-1">
             Book a Demo
+          </button>
+          <button className="w-full sm:w-auto px-12 py-4 text-lg font-bold text-white bg-brand rounded-full hover:bg-brand/90 shadow-xl shadow-brand/30 transition-all transform hover:-translate-y-1">
+            Get Started Free
           </button>
         </div>
       </motion.div>
@@ -135,8 +132,8 @@ const DashboardPreview = () => {
   ];
 
   const typingTexts = [
+    "Launch a full-stack cloud platform—on your infrastructure, on your terms.",
     "StackOps: Managed cloud operations built for service providers.",
-    "Launch a full-stack cloud platform—on your infrastructure.",
     "Sovereign AI: Orchestrate GPU clusters with ease.",
     "Unified Billing: Monetize your cloud services globally."
   ];
@@ -174,49 +171,33 @@ const DashboardPreview = () => {
   }, [displayText, isTyping, activeSlide]);
 
   return (
-    <section className="relative z-20 -mt-48 md:-mt-64 px-4 max-w-7xl mx-auto pb-24">
-      <motion.div 
-        initial={{ opacity: 0, y: 100 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-        className="bg-[#0f172a] rounded-[40px] p-6 md:p-10 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.5)] border border-slate-800 overflow-hidden"
-      >
-        {/* Restored Search Bar */}
-        <div className="max-w-3xl mx-auto mb-10">
-          <div className="bg-white rounded-full p-2 pl-6 flex items-center justify-between shadow-2xl">
-            <div className="flex items-center space-x-4 flex-1">
-              <Globe className="text-brand" size={20} />
-              <div className="text-slate-600 font-medium text-sm md:text-base truncate">
+    <section className="relative z-20 -mt-40 md:-mt-56 px-4 max-w-7xl mx-auto pb-24">
+      <div className="relative">
+        {/* Floating Search Bar - Positioned to overlap the top edge */}
+        <div className="absolute -top-7 left-1/2 -translate-x-1/2 z-30 w-full max-w-2xl px-4">
+          <div className="bg-white rounded-full p-1.5 pl-6 flex items-center justify-between shadow-[0_10px_30px_-10px_rgba(0,0,0,0.1)] border border-slate-100">
+            <div className="flex items-center space-x-3 flex-1">
+              <Globe className="text-brand" size={16} />
+              <div className="text-slate-600 font-medium text-xs md:text-sm truncate">
                 {displayText}
-                <span className="inline-block w-0.5 h-5 bg-brand ml-1 animate-pulse align-middle" />
+                <span className="inline-block w-0.5 h-4 bg-brand ml-1 animate-pulse align-middle" />
               </div>
             </div>
-            <button className="w-10 h-10 md:w-12 md:h-12 bg-slate-900 text-white rounded-full flex items-center justify-center hover:bg-slate-800 transition-colors">
-              <ArrowRight size={20} />
+            <button className="w-8 h-8 md:w-10 md:h-10 bg-slate-900 text-white rounded-full flex items-center justify-center hover:bg-slate-800 transition-colors">
+              <ArrowRight size={16} />
             </button>
           </div>
         </div>
 
-        {/* Mac Window Frame */}
-        <div className="bg-[#1e293b]/50 backdrop-blur-xl rounded-[32px] border border-white/10 overflow-hidden shadow-2xl">
-          {/* Window Header */}
-          <div className="bg-white/5 px-6 py-4 flex items-center border-b border-white/5">
-            <div className="flex space-x-2">
-              <div className="w-3 h-3 rounded-full bg-rose-500/80 shadow-[0_0_10px_rgba(244,63,94,0.4)]" />
-              <div className="w-3 h-3 rounded-full bg-amber-500/80 shadow-[0_0_10px_rgba(245,158,11,0.4)]" />
-              <div className="w-3 h-3 rounded-full bg-emerald-500/80 shadow-[0_0_10px_rgba(16,185,129,0.4)]" />
-            </div>
-            <div className="flex-1 text-center">
-              <div className="inline-flex items-center space-x-2 px-4 py-1 bg-white/5 rounded-full border border-white/5">
-                <Globe size={12} className="text-brand" />
-                <span className="text-[10px] font-bold text-white/40 tracking-widest uppercase">stackorbit.cloud/dashboard</span>
-              </div>
-            </div>
-          </div>
-          
-          {/* Image Carousel */}
-          <div className="relative aspect-[16/10] md:aspect-[21/9] overflow-hidden bg-slate-900">
+        <motion.div 
+          initial={{ opacity: 0, y: 100 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="bg-white rounded-[40px] p-4 md:p-6 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.1)] border border-slate-100 overflow-hidden"
+        >
+          {/* Dashboard Content Container */}
+          <div className="bg-[#0f172a] rounded-[32px] overflow-hidden shadow-2xl relative aspect-[16/10] md:aspect-[21/9]">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentImage}
@@ -236,21 +217,22 @@ const DashboardPreview = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/40 via-transparent to-transparent" />
               </motion.div>
             </AnimatePresence>
-            
-            {/* Progress indicators */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-2 z-30">
-              {images.map((_, i) => (
-                <div 
-                  key={i}
-                  className={`h-1 rounded-full transition-all duration-500 ${
-                    currentImage === i ? 'w-8 bg-brand' : 'w-2 bg-white/20'
-                  }`}
-                />
-              ))}
-            </div>
           </div>
-        </div>
-      </motion.div>
+          
+          {/* Pagination Dots */}
+          <div className="flex justify-center mt-6 space-x-2">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentImage(i)}
+                className={`h-1.5 rounded-full transition-all duration-500 ${
+                  currentImage === i ? 'w-8 bg-brand' : 'w-1.5 bg-slate-200'
+                }`}
+              />
+            ))}
+          </div>
+        </motion.div>
+      </div>
     </section>
   );
 };
