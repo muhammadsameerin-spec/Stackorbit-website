@@ -79,10 +79,10 @@ const TarsBackground = () => (
 );
 
 const Hero = () => (
-  <section className="relative min-h-[80vh] flex flex-col items-center justify-start overflow-hidden pt-[120px] pb-[200px]">
+  <section className="relative min-h-[80vh] flex flex-col items-center justify-start overflow-hidden">
     <WavyBackground 
       containerClassName="absolute inset-0 h-full w-full"
-      className="max-w-7xl mx-auto px-4 text-center relative z-10"
+      className="max-w-7xl mx-auto px-4 text-center relative z-10 pt-[120px] pb-[200px]"
       backgroundFill="white"
       waveOpacity={0.3}
       blur={20}
