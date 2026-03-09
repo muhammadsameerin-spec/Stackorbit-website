@@ -4,8 +4,9 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronDown, Globe, ArrowRight, MessageCircle, Shield, Zap, Cpu, BarChart3, Cloud, Layers, Users, CheckCircle2, Facebook, Twitter, Linkedin, Github, Youtube, Building, Server, ChevronLeft, ChevronRight, Star } from 'lucide-react';
+import { ChevronDown, Globe, ArrowRight, MessageCircle, Shield, Zap, Cpu, BarChart3, Cloud, Layers, Users, CheckCircle2, Facebook, Twitter, Linkedin, Github, Youtube, Building, Server, ChevronLeft, ChevronRight, Star, MousePointer2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { WavyBackground } from './components/WavyBackground';
 
 const TopNav = () => (
   <div className="w-full border-b border-slate-100 py-2 px-4 md:px-12 flex justify-end items-center space-x-6 text-xs text-slate-500 font-medium">
@@ -45,10 +46,10 @@ const Navbar = () => (
     </div>
 
     <div className="flex items-center space-x-4">
-      <button className="px-6 py-2 text-sm font-semibold text-slate-600 border border-slate-200 rounded hover:bg-slate-50 transition-all">
+      <button className="px-6 py-2 text-sm font-semibold text-slate-600 border border-slate-200 rounded-full hover:bg-slate-50 transition-all">
         Login
       </button>
-      <button className="px-6 py-2 text-sm font-semibold text-white bg-brand rounded hover:bg-brand/90 shadow-lg shadow-brand/20 transition-all">
+      <button className="px-6 py-2 text-sm font-semibold text-white bg-brand rounded-full hover:bg-brand/90 shadow-lg shadow-brand/20 transition-all">
         Get Started Free
       </button>
     </div>
@@ -80,303 +81,176 @@ const TarsBackground = () => (
 );
 
 const Hero = () => (
-  <section className="relative pt-20 pb-16 px-4 text-center overflow-hidden bg-slate-50/50">
-    <TarsBackground />
-    
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="max-w-4xl mx-auto relative z-10"
+  <section className="relative min-h-[90vh] md:min-h-screen flex items-center justify-center overflow-hidden">
+    <WavyBackground 
+      containerClassName="absolute inset-0 h-full w-full"
+      className="max-w-4xl mx-auto px-4 text-center relative z-10"
+      backgroundFill="white"
+      waveOpacity={0.4}
+      blur={15}
+      speed="slow"
+      orientation="vertical"
+      position="right"
+      colors={["#7c3aed", "#a78bfa", "#c4b5fd", "#8b5cf6", "#6d28d9"]}
     >
-      <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 leading-[1.1] tracking-tight">
-        A Unified Platform for <br />
-        <span className="text-brand">Public Cloud</span>
-      </h1>
-      
-      <p className="mt-8 text-lg md:text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed">
-        The complete sovereign cloud platform that enables service providers to launch, operate, and monetize cloud services—without hyperscaler dependency.
-      </p>
-      
-      <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
-        <button className="w-full sm:w-auto px-10 py-4 text-lg font-bold text-white bg-brand rounded hover:bg-brand/90 shadow-xl shadow-brand/20 transition-all transform hover:-translate-y-1">
-          Get Started Free
-        </button>
-        <button className="w-full sm:w-auto px-10 py-4 text-lg font-bold text-slate-700 bg-brand-light border border-brand/10 rounded hover:bg-brand/10 transition-all transform hover:-translate-y-1">
-          Book a Demo
-        </button>
-      </div>
-    </motion.div>
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="pb-32 md:pb-48"
+      >
+        <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 leading-[1.1] tracking-tight">
+          A Unified Platform for <br />
+          <span className="text-brand">Public Cloud</span>
+        </h1>
+        
+        <p className="mt-8 text-lg md:text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed">
+          The complete sovereign cloud platform that enables service providers to launch, operate, and monetize cloud services—without hyperscaler dependency.
+        </p>
+        
+        <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <button className="w-full sm:w-auto px-10 py-4 text-lg font-bold text-white bg-brand rounded-full hover:bg-brand/90 shadow-xl shadow-brand/20 transition-all transform hover:-translate-y-1">
+            Get Started Free
+          </button>
+          <button className="w-full sm:w-auto px-10 py-4 text-lg font-bold text-slate-700 bg-white border border-slate-200 rounded-full hover:bg-slate-50 transition-all transform hover:-translate-y-1">
+            Book a Demo
+          </button>
+        </div>
+      </motion.div>
+    </WavyBackground>
   </section>
 );
 
 const DashboardPreview = () => {
-  const [slides, setSlides] = useState([
-    {
-      id: 0,
-      bannerText: "Deliver anything-as-a-service from a single cloud platform.",
-      bannerIcon: <Layers size={18} />,
-      title: "IaaS Marketplace Platform",
-      regions: [
-        { name: "Global North", zones: "5 zones", color: "bg-emerald-500" },
-        { name: "Global South", zones: "3 zones", color: "bg-emerald-500" },
-        { name: "Edge Network", zones: "8 zones", color: "bg-emerald-500" }
-      ],
-      stats: [
-        { label: "Compute Hosts", value: "320" },
-        { label: "Storage", value: "7.5 PB" },
-        { label: "Marketplace Apps", value: "250+" },
-        { label: "VMs Active", value: "6,890" }
-      ],
-      activity: [
-        { title: "App marketplace live", sub: "One-click deployment for 250+ apps", time: "1m ago", color: "bg-emerald-500" },
-        { title: "Revenue tracking enabled", sub: "Real-time billing and analytics", time: "4m ago", color: "bg-indigo-500" },
-        { title: "Partner API activated", sub: "Third-party app integration ready", time: "7m ago", color: "bg-indigo-500" }
-      ]
-    },
-    {
-      id: 1,
-      bannerText: "From rack to revenue, StackOrbit runs your cloud end-to-end.",
-      bannerIcon: <Server size={18} />,
-      title: "Multi-Region B2B Cloud",
-      regions: [
-        { name: "US-East", zones: "4 zones", color: "bg-emerald-500" },
-        { name: "US-West", zones: "3 zones", color: "bg-emerald-500" },
-        { name: "Canada", zones: "2 zones", color: "bg-emerald-500" }
-      ],
-      stats: [
-        { label: "Compute Hosts", value: "248" },
-        { label: "Storage", value: "5.8 PB" },
-        { label: "Uptime", value: "99.9%" },
-        { label: "VMs Active", value: "4,120" }
-      ],
-      activity: [
-        { title: "Auto-scaling enabled", sub: "Dynamic resource allocation active", time: "2m ago", color: "bg-emerald-500" },
-        { title: "B2B portal launched", sub: "Self-service provisioning for customers", time: "5m ago", color: "bg-indigo-500" },
-        { title: "API gateway deployed", sub: "Unified access across all regions", time: "8m ago", color: "bg-indigo-500" }
-      ]
-    },
-    {
-      id: 2,
-      bannerText: "Sovereign AI infrastructure for high-performance workloads.",
-      bannerIcon: <Cpu size={18} />,
-      title: "Sovereign AI Cloud",
-      regions: [
-        { name: "EU-Central", zones: "6 zones", color: "bg-brand" },
-        { name: "Asia-East", zones: "4 zones", color: "bg-brand" },
-        { name: "Middle East", zones: "2 zones", color: "bg-brand" }
-      ],
-      stats: [
-        { label: "GPU Clusters", value: "12" },
-        { label: "AI Models", value: "45" },
-        { label: "Training Jobs", value: "1.2k" },
-        { label: "Inference/sec", value: "850k" }
-      ],
-      activity: [
-        { title: "LLM Training Started", sub: "Distributed training on 128 GPUs", time: "30s ago", color: "bg-brand" },
-        { title: "Model Registry Updated", sub: "New Llama-3 fine-tuned weights", time: "12m ago", color: "bg-emerald-500" },
-        { title: "Inference Node Scaled", sub: "Auto-scaling triggered by demand", time: "15m ago", color: "bg-emerald-500" }
-      ]
-    }
-  ]);
-
+  const [currentImage, setCurrentImage] = useState(0);
   const [displayText, setDisplayText] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [typingSpeed, setTypingSpeed] = useState(100);
+  const [isTyping, setIsTyping] = useState(true);
+  const [activeSlide, setActiveSlide] = useState(0);
 
-  const bringToFront = (index: number) => {
-    const newSlides = [...slides];
-    const [selected] = newSlides.splice(index, 1);
-    newSlides.unshift(selected);
-    setSlides(newSlides);
-    setDisplayText("");
-    setIsDeleting(false);
-  };
+  const images = [
+    "https://picsum.photos/seed/cloud-infra-1/1200/800",
+    "https://picsum.photos/seed/cloud-infra-2/1200/800",
+    "https://picsum.photos/seed/cloud-infra-3/1200/800",
+    "https://picsum.photos/seed/cloud-infra-4/1200/800",
+  ];
 
-  // Auto-typing effect for the front slide
+  const typingTexts = [
+    "StackOps: Managed cloud operations built for service providers.",
+    "Launch a full-stack cloud platform—on your infrastructure.",
+    "Sovereign AI: Orchestrate GPU clusters with ease.",
+    "Unified Billing: Monetize your cloud services globally."
+  ];
+
   useEffect(() => {
-    const currentFullText = slides[0].bannerText;
-    
-    const handleTyping = () => {
-      if (!isDeleting) {
-        setDisplayText(currentFullText.substring(0, displayText.length + 1));
-        setTypingSpeed(100);
-        if (displayText === currentFullText) {
-          setTimeout(() => setIsDeleting(true), 3000);
-        }
-      } else {
-        setDisplayText(currentFullText.substring(0, displayText.length - 1));
-        setTypingSpeed(50);
-        if (displayText === "") {
-          setIsDeleting(false);
-        }
-      }
-    };
+    const timer = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % images.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
-    const timer = setTimeout(handleTyping, typingSpeed);
-    return () => clearTimeout(timer);
-  }, [displayText, isDeleting, slides]);
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    const currentText = typingTexts[activeSlide];
+    
+    if (isTyping) {
+      if (displayText.length < currentText.length) {
+        timeout = setTimeout(() => {
+          setDisplayText(currentText.slice(0, displayText.length + 1));
+        }, 50);
+      } else {
+        timeout = setTimeout(() => setIsTyping(false), 3000);
+      }
+    } else {
+      if (displayText.length > 0) {
+        timeout = setTimeout(() => {
+          setDisplayText(displayText.slice(0, -1));
+        }, 30);
+      } else {
+        setIsTyping(true);
+        setActiveSlide((prev) => (prev + 1) % typingTexts.length);
+      }
+    }
+    return () => clearTimeout(timeout);
+  }, [displayText, isTyping, activeSlide]);
 
   return (
-    <section className="max-w-7xl mx-auto px-4 pb-60 relative">
-      <div className="relative h-[800px] pt-10">
-        <AnimatePresence initial={false}>
-          {slides.map((slide, index) => {
-            const isFront = index === 0;
-            return (
+    <section className="relative z-20 -mt-48 md:-mt-64 px-4 max-w-7xl mx-auto pb-24">
+      <motion.div 
+        initial={{ opacity: 0, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+        className="bg-[#0f172a] rounded-[40px] p-6 md:p-10 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.5)] border border-slate-800 overflow-hidden"
+      >
+        {/* Restored Search Bar */}
+        <div className="max-w-3xl mx-auto mb-10">
+          <div className="bg-white rounded-full p-2 pl-6 flex items-center justify-between shadow-2xl">
+            <div className="flex items-center space-x-4 flex-1">
+              <Globe className="text-brand" size={20} />
+              <div className="text-slate-600 font-medium text-sm md:text-base truncate">
+                {displayText}
+                <span className="inline-block w-0.5 h-5 bg-brand ml-1 animate-pulse align-middle" />
+              </div>
+            </div>
+            <button className="w-10 h-10 md:w-12 md:h-12 bg-slate-900 text-white rounded-full flex items-center justify-center hover:bg-slate-800 transition-colors">
+              <ArrowRight size={20} />
+            </button>
+          </div>
+        </div>
+
+        {/* Mac Window Frame */}
+        <div className="bg-[#1e293b]/50 backdrop-blur-xl rounded-[32px] border border-white/10 overflow-hidden shadow-2xl">
+          {/* Window Header */}
+          <div className="bg-white/5 px-6 py-4 flex items-center border-b border-white/5">
+            <div className="flex space-x-2">
+              <div className="w-3 h-3 rounded-full bg-rose-500/80 shadow-[0_0_10px_rgba(244,63,94,0.4)]" />
+              <div className="w-3 h-3 rounded-full bg-amber-500/80 shadow-[0_0_10px_rgba(245,158,11,0.4)]" />
+              <div className="w-3 h-3 rounded-full bg-emerald-500/80 shadow-[0_0_10px_rgba(16,185,129,0.4)]" />
+            </div>
+            <div className="flex-1 text-center">
+              <div className="inline-flex items-center space-x-2 px-4 py-1 bg-white/5 rounded-full border border-white/5">
+                <Globe size={12} className="text-brand" />
+                <span className="text-[10px] font-bold text-white/40 tracking-widest uppercase">stackorbit.cloud/dashboard</span>
+              </div>
+            </div>
+          </div>
+          
+          {/* Image Carousel */}
+          <div className="relative aspect-[16/10] md:aspect-[21/9] overflow-hidden bg-slate-900">
+            <AnimatePresence mode="wait">
               <motion.div
-                key={slide.id}
-                layout
-                initial={false}
-                animate={{
-                  y: (slides.length - 1 - index) * 45, 
-                  scale: 1 - index * 0.02,
-                  zIndex: 30 - index,
-                  opacity: 1,
-                }}
-                transition={{ type: "spring", stiffness: 200, damping: 25 }}
-                onClick={() => !isFront && bringToFront(index)}
-                className={`absolute inset-x-0 mx-auto max-w-5xl cursor-pointer ${
-                  !isFront ? "hover:-translate-y-2" : "cursor-default"
-                }`}
+                key={currentImage}
+                initial={{ opacity: 0, scale: 1.05, filter: "blur(10px)" }}
+                animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                exit={{ opacity: 0, scale: 0.95, filter: "blur(10px)" }}
+                transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
+                className="absolute inset-0"
               >
-                {/* Tab Header (Visible for background cards) */}
-                {!isFront && (
-                  <div className="bg-white/95 backdrop-blur-md rounded-t-[32px] border-x border-t border-white/20 px-10 h-[50px] flex items-center space-x-4 shadow-[0_-10px_30px_rgba(0,0,0,0.03)] w-full">
-                    <div className="text-brand/80">
-                      {slide.bannerIcon}
-                    </div>
-                    <span className="text-sm font-bold text-slate-600 truncate">
-                      {slide.title}
-                    </span>
-                  </div>
-                )}
-
-                {/* Dashboard Card with Liquid Glass Design */}
-                <div className={`
-                  relative overflow-hidden rounded-[32px] border border-white/10 shadow-2xl
-                  ${isFront ? 'bg-white shadow-[0_40px_80px_rgba(0,0,0,0.1)]' : 'bg-slate-800/40 backdrop-blur-xl'}
-                  p-8 md:p-12 w-full
-                  ${isFront ? 'min-h-[680px]' : 'min-h-[600px] rounded-t-none border-t-0'}
-                `}>
-                  {/* Liquid Background Elements (Only for background cards or as subtle accents) */}
-                  <div className="absolute top-0 left-0 w-full h-full -z-10 overflow-hidden">
-                    <motion.div 
-                      animate={{ 
-                        x: [0, 50, 0], 
-                        y: [0, 30, 0],
-                        scale: [1, 1.1, 1]
-                      }}
-                      transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-                      className={`absolute -top-1/2 -left-1/4 w-full h-full ${isFront ? 'bg-brand/5' : 'bg-brand/10'} blur-[120px] rounded-full`} 
-                    />
-                  </div>
-
-                  {/* Browser Header (Simplified for Front Card) */}
-                  <div className="flex items-center space-x-3 mb-12">
-                    <div className="p-2 bg-brand/10 rounded-lg text-brand">
-                      {slide.bannerIcon}
-                    </div>
-                    <div className="text-sm font-bold text-slate-800 tracking-tight">
-                      {slide.title}
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col lg:flex-row gap-12 items-center">
-                    {/* Editorial Content (Left Side) */}
-                    <div className="flex-1 space-y-8">
-                      <h3 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight tracking-tight">
-                        {slide.title === "IaaS Marketplace Platform" ? "Comprehensive Cloud Infrastructure and Marketplace" : 
-                         slide.title === "Multi-Region B2B Cloud" ? "Global B2B Cloud Operations and Scaling" :
-                         "Sovereign AI Infrastructure and Intelligence"}
-                      </h3>
-                      
-                      <div className="text-lg text-slate-600 leading-relaxed max-w-xl">
-                        <div className="min-h-[100px]">
-                          {isFront ? (
-                            <>
-                              {displayText}
-                              <motion.span 
-                                animate={{ opacity: [1, 0] }}
-                                transition={{ duration: 0.5, repeat: Infinity }}
-                                className="inline-block w-0.5 h-5 bg-brand ml-1 align-middle"
-                              />
-                            </>
-                          ) : (
-                            slide.bannerText
-                          )}
-                        </div>
-                      </div>
-
-                      <div className="flex items-center space-x-6">
-                        <button className="px-8 py-4 bg-slate-900 text-white font-bold rounded-full hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/20 flex items-center space-x-3">
-                          <span>Get Started</span>
-                          <ArrowRight size={18} />
-                        </button>
-                        <button className="text-slate-600 font-bold hover:text-brand transition-colors">
-                          View Documentation
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Dashboard Preview (Right Side) */}
-                    <div className="flex-1 w-full">
-                      <div className="bg-slate-900 rounded-3xl p-6 shadow-2xl border border-slate-800 relative overflow-hidden">
-                        {/* Browser Dots */}
-                        <div className="flex space-x-1.5 mb-6">
-                          <div className="w-2.5 h-2.5 rounded-full bg-red-500/40" />
-                          <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/40" />
-                          <div className="w-2.5 h-2.5 rounded-full bg-green-500/40" />
-                        </div>
-
-                        <div className="space-y-6">
-                          {/* Stats Grid */}
-                          <div className="grid grid-cols-2 gap-4">
-                            {slide.stats.slice(0, 2).map((stat, i) => (
-                              <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-4">
-                                <div className="text-xl font-bold text-white mb-1">{stat.value}</div>
-                                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">{stat.label}</div>
-                              </div>
-                            ))}
-                          </div>
-
-                          {/* Activity List */}
-                          <div className="space-y-4">
-                            {slide.activity.slice(0, 2).map((item, i) => (
-                              <div key={i} className="flex items-center justify-between bg-white/5 border border-white/10 rounded-xl p-3">
-                                <div className="flex items-center space-x-3">
-                                  <div className={`w-1.5 h-1.5 rounded-full ${item.color}`} />
-                                  <div className="text-[10px] font-bold text-white">{item.title}</div>
-                                </div>
-                                <div className="text-[9px] text-slate-500">{item.time}</div>
-                              </div>
-                            ))}
-                          </div>
-
-                          {/* Mock Chart Area */}
-                          <div className="h-32 bg-white/5 border border-white/10 rounded-2xl relative overflow-hidden">
-                            <div className="absolute inset-0 flex items-end px-4 pb-4 space-x-1">
-                              {[40, 70, 45, 90, 65, 80, 55, 95, 75, 85].map((h, i) => (
-                                <motion.div 
-                                  key={i}
-                                  initial={{ height: 0 }}
-                                  animate={{ height: `${h}%` }}
-                                  transition={{ delay: i * 0.1, duration: 1 }}
-                                  className="flex-1 bg-brand/40 rounded-t-sm"
-                                />
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <img
+                  src={images[currentImage]}
+                  alt={`Dashboard Preview ${currentImage + 1}`}
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+                {/* Overlay for depth */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/40 via-transparent to-transparent" />
               </motion.div>
-            );
-          })}
-        </AnimatePresence>
-      </div>
+            </AnimatePresence>
+            
+            {/* Progress indicators */}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-2 z-30">
+              {images.map((_, i) => (
+                <div 
+                  key={i}
+                  className={`h-1 rounded-full transition-all duration-500 ${
+                    currentImage === i ? 'w-8 bg-brand' : 'w-2 bg-white/20'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </motion.div>
     </section>
   );
 };
@@ -936,7 +810,7 @@ const ModularProducts = () => {
               <button
                 key={product.id}
                 onClick={() => setActiveTab(idx)}
-                className={`w-full text-left p-5 rounded-xl transition-all flex items-center space-x-4 group ${
+                className={`w-full text-left p-5 rounded-2xl transition-all flex items-center space-x-4 group ${
                   activeTab === idx 
                     ? 'bg-brand text-white shadow-xl shadow-brand/20' 
                     : 'bg-slate-50 text-slate-400 hover:bg-slate-100'
@@ -977,7 +851,7 @@ const ModularProducts = () => {
                       {products[activeTab].desc}
                     </p>
                   </div>
-                  <button className={`px-6 py-2.5 text-sm font-bold rounded transition-all ${products[activeTab].btnClass}`}>
+                  <button className={`px-6 py-2.5 text-sm font-bold rounded-full transition-all ${products[activeTab].btnClass}`}>
                     Learn more
                   </button>
                 </div>
@@ -1014,7 +888,7 @@ const ManagedServices = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="relative overflow-hidden rounded bg-gradient-to-br from-[#1a0b2e] via-[#0f071a] to-black p-8 md:p-12 text-white"
+            className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#1a0b2e] via-[#0f071a] to-black p-8 md:p-12 text-white"
           >
             <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
               <div className="max-w-2xl">
@@ -1031,7 +905,7 @@ const ManagedServices = () => {
                   Apache CloudStack experts accelerate your cloud journey.
                 </p>
               </div>
-              <button className="px-8 py-4 bg-white text-slate-900 font-bold rounded flex items-center space-x-2 hover:bg-slate-100 transition-all">
+              <button className="px-8 py-4 bg-white text-slate-900 font-bold rounded-full flex items-center space-x-2 hover:bg-slate-100 transition-all">
                 <span>View All Services</span>
                 <ArrowRight size={18} />
               </button>
@@ -1047,7 +921,7 @@ const ManagedServices = () => {
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="md:row-span-2 bg-[#f8f7ff] rounded p-8 flex flex-col border border-slate-100"
+              className="md:row-span-2 bg-[#f8f7ff] rounded-3xl p-8 flex flex-col border border-slate-100"
             >
               <div className="w-12 h-12 bg-brand rounded flex items-center justify-center text-white mb-8">
                 <Cloud size={24} />
@@ -1076,7 +950,7 @@ const ManagedServices = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="bg-white rounded p-8 border border-slate-100"
+              className="bg-white rounded-2xl p-8 border border-slate-100"
             >
               <div className="w-10 h-10 bg-indigo-600 rounded flex items-center justify-center text-white mb-6">
                 <Layers size={20} />
@@ -1097,7 +971,7 @@ const ManagedServices = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="bg-white rounded p-8 border border-slate-100"
+              className="bg-white rounded-2xl p-8 border border-slate-100"
             >
               <div className="w-10 h-10 bg-rose-600 rounded flex items-center justify-center text-white mb-6">
                 <Zap size={20} />
@@ -1118,7 +992,7 @@ const ManagedServices = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="md:col-span-2 bg-brand rounded p-8 text-white flex flex-col md:flex-row gap-8 items-center"
+              className="md:col-span-2 bg-brand rounded-3xl p-8 text-white flex flex-col md:flex-row gap-8 items-center"
             >
               <div className="flex-1">
                 <div className="flex items-center space-x-3 mb-6">
@@ -1201,10 +1075,10 @@ const CaseStudyCarousel = () => {
                   {slides[currentSlide].desc}
                 </p>
                 <div className="flex flex-wrap gap-4">
-                  <button className="px-8 py-4 bg-brand text-white font-bold rounded hover:bg-brand/90 transition-all shadow-lg shadow-brand/20">
+                  <button className="px-8 py-4 bg-brand text-white font-bold rounded-full hover:bg-brand/90 transition-all shadow-lg shadow-brand/20">
                     {slides[currentSlide].primaryBtn}
                   </button>
-                  <button className="px-8 py-4 bg-slate-50 text-slate-900 font-bold rounded border border-slate-200 hover:bg-slate-100 transition-all">
+                  <button className="px-8 py-4 bg-slate-50 text-slate-900 font-bold rounded-full border border-slate-200 hover:bg-slate-100 transition-all">
                     {slides[currentSlide].secondaryBtn}
                   </button>
                 </div>
@@ -1316,7 +1190,7 @@ const Solutions = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: idx * 0.1 }}
-            className="bg-white rounded overflow-hidden shadow-sm border border-slate-100 group"
+            className="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 group"
           >
             <div className="h-48 overflow-hidden">
               <img 
@@ -1343,7 +1217,7 @@ const Solutions = () => (
 
 const CTA = () => (
   <section className="py-24 px-4">
-    <div className="max-w-5xl mx-auto bg-brand rounded-xl p-12 md:p-20 text-center relative overflow-hidden shadow-2xl shadow-brand/30">
+    <div className="max-w-5xl mx-auto bg-brand rounded-[32px] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl shadow-brand/30">
       {/* Decorative Circles */}
       <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-black/10 rounded-full translate-x-1/3 translate-y-1/3 blur-3xl" />
@@ -1356,10 +1230,10 @@ const CTA = () => (
           Join the hundreds of providers who have reclaimed their cloud sovereignty with StackOrbit. Start your 30-day free trial today.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <button className="w-full sm:w-auto px-10 py-4 text-lg font-bold text-brand bg-white rounded hover:bg-slate-50 transition-all transform hover:-translate-y-1">
+          <button className="w-full sm:w-auto px-10 py-4 text-lg font-bold text-brand bg-white rounded-full hover:bg-slate-50 transition-all transform hover:-translate-y-1">
             Get Started Free
           </button>
-          <button className="w-full sm:w-auto px-10 py-4 text-lg font-bold text-white border border-white/30 rounded hover:bg-white/10 transition-all transform hover:-translate-y-1">
+          <button className="w-full sm:w-auto px-10 py-4 text-lg font-bold text-white border border-white/30 rounded-full hover:bg-white/10 transition-all transform hover:-translate-y-1">
             Talk to an Expert
           </button>
         </div>
@@ -1396,7 +1270,7 @@ const Footer = () => (
           </p>
           <div className="flex items-center space-x-4 mb-12">
             {[Github, Twitter, Linkedin, Youtube].map((Icon, i) => (
-              <a key={i} href="#" className="w-10 h-10 rounded bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-brand hover:border-brand/30 transition-all">
+              <a key={i} href="#" className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-brand hover:border-brand/30 transition-all">
                 <Icon size={18} />
               </a>
             ))}
@@ -1486,13 +1360,13 @@ const Footer = () => (
 
 const ChatWidget = () => (
   <div className="fixed bottom-8 right-8 z-50 flex flex-col items-end space-y-4">
-    <div className="bg-white py-2 px-4 rounded shadow-xl border border-slate-100 flex items-center space-x-2 animate-bounce">
-      <div className="w-2 h-2 bg-emerald-500 rounded-sm animate-pulse" />
+    <div className="bg-white py-2 px-4 rounded-full shadow-xl border border-slate-100 flex items-center space-x-2 animate-bounce">
+      <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
       <span className="text-xs font-bold text-slate-600">Ask TARS</span>
     </div>
-    <button className="w-16 h-16 bg-white rounded shadow-2xl border border-slate-100 flex items-center justify-center text-brand hover:scale-110 transition-transform group relative">
+    <button className="w-16 h-16 bg-white rounded-full shadow-2xl border border-slate-100 flex items-center justify-center text-brand hover:scale-110 transition-transform group relative">
       <MessageCircle size={32} />
-      <div className="absolute -top-1 -right-1 w-5 h-5 bg-brand text-white text-[10px] font-bold flex items-center justify-center rounded-sm border-2 border-white">
+      <div className="absolute -top-1 -right-1 w-5 h-5 bg-brand text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-white">
         1
       </div>
     </button>
